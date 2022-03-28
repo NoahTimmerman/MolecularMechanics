@@ -1,8 +1,9 @@
 program MolecularMechanics
 
-    USE AtomData
-    USE CalculationMod
+    USE MoleculeMod
+    USE Calculation
     USE EnergyCalculation
+    USE Minimise
 
     IMPLICIT NONE
 
@@ -24,5 +25,7 @@ program MolecularMechanics
     
     print *, NonBondedEnergy(Variables, MoleculeData)
     print *, TotalEnergy(Variables, BondingArray, AngleArray, TorsionalAngles, MoleculeData)
+
+    call MovingMolecule(MoleculeData)
 
 end program 

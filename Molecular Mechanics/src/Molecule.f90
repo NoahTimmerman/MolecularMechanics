@@ -1,4 +1,4 @@
-module AtomData
+module MoleculeMod
 
     implicit none
 
@@ -12,7 +12,7 @@ module AtomData
 
     type Parameters
         real*8 :: CCBondLength, CHBondLength, CCBondStretch, CHBondStretch, ForceConstantAngle, EquiAngle, V1, n, Y, ChargeH, &
-        ChargeC, Coulombs, Avogadro, SigmaH, SigmaC, WellDepthC, WellDepthH
+&        ChargeC, Coulombs, Avogadro, SigmaH, SigmaC, WellDepthC, WellDepthH
          
     end type 
 

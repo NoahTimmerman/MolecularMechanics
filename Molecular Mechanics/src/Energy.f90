@@ -1,7 +1,7 @@
 module EnergyCalculation 
 
-    USE AtomData
-    USE CalculationMod
+    USE MoleculeMod
+    USE Calculation
     implicit none
 
     PRIVATE
@@ -17,7 +17,7 @@ real*8 function TotalEnergy(Variables, BondingArray, AngleArray, TorsionalAngles
     real*8, INTENT(IN), ALLOCATABLE :: TorsionalAngles(:)
   
     TotalEnergy = StretchEnergy(Variables, BondingArray) + BendingEnergy(Variables, AngleArray) + &
-    TorsionalEnergy(Variables, TorsionalAngles) + NonBondedEnergy(Variables, MoleculeData)
+&    TorsionalEnergy(Variables, TorsionalAngles) + NonBondedEnergy(Variables, MoleculeData)
 
 end function 
 
@@ -73,16 +73,16 @@ real*8 function NonBondedEnergy(Variables, MoleculeData)
                 if (MoleculeData(i)%Element == 'H' .and. MoleculeData(j)%Element =='H')then
                     if (j > i)then 
                         NonBondedEnergy = NonBondedEnergy + (Variables%Coulombs * Variables%Avogadro * (Variables%ChargeH**2)  / &
-                        (CalculateBondLength(i,j,MoleculeData)/(10.0**10)))
+&                        (CalculateBondLength(i,j,MoleculeData)/(10.0**10)))
                     endif
                     NonBondedEnergy = NonBondedEnergy + ( (4 * Variables%WellDepthH) * &
-                    ((Variables%SigmaH / CalculateBondLength(i,j,MoleculeData)**12) - &
-                    ((Variables%SigmaH / CalculateBondLength(i,j,MoleculeData)**6))) )
+&                   ((Variables%SigmaH / CalculateBondLength(i,j,MoleculeData)**12) - &
+&                   ((Variables%SigmaH / CalculateBondLength(i,j,MoleculeData)**6))) )
                 
                 elseif (MoleculeData(i)%Element == 'C' .and. MoleculeData(j)%Element == 'C')then
                     if (j > i)then 
                         NonBondedEnergy = NonBondedEnergy + (Variables%Coulombs * Variables%Avogadro * (Variables%ChargeH**2)  / &
-                        (CalculateBondLength(i,j,MoleculeData)/(10.0**10)))
+&                       (CalculateBondLength(i,j,MoleculeData)/(10.0**10)))
                     endif
                     NonBondedEnergy = NonBondedEnergy + ( (4 * Variables%WellDepthC) * &
                     ((Variables%SigmaC / CalculateBondLength(i,j,MoleculeData)**12) - &
@@ -90,11 +90,11 @@ real*8 function NonBondedEnergy(Variables, MoleculeData)
                 else
                     if (j > i)then 
                         NonBondedEnergy = NonBondedEnergy + (Variables%Coulombs * Variables%Avogadro * (Variables%ChargeH**2)  / &
-                        (CalculateBondLength(i,j,MoleculeData)/(10.0**10)))
+&                       (CalculateBondLength(i,j,MoleculeData)/(10.0**10)))
                     endif
                     NonBondedEnergy = NonBondedEnergy + ( (4 * ((Variables%WellDepthC/2) + (Variables%WellDepthH/2)) ) * &
-                    (( ((Variables%SigmaC/2)+(Variables%SigmaH/2)) / CalculateBondLength(i,j,MoleculeData)**12) - &
-                    (( ((Variables%SigmaC/2)+(Variables%SigmaH/2)) / CalculateBondLength(i,j,MoleculeData)**6))) )
+&                   (( ((Variables%SigmaC/2)+(Variables%SigmaH/2)) / CalculateBondLength(i,j,MoleculeData)**12) - &
+&                   (( ((Variables%SigmaC/2)+(Variables%SigmaH/2)) / CalculateBondLength(i,j,MoleculeData)**6))) )
                 endif
             endif
         enddo
