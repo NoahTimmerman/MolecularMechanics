@@ -1,0 +1,6 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory `/Users/noah/Desktop/Master/MolecularMechanics'
+make: Leaving directory `/Users/noah/Desktop/Master/MolecularMechanics'
+ 
+make: *** No targets specified and no makefile found.  Stop.
+ 

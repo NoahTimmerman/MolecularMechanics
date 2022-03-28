@@ -1,6 +1,6 @@
 program MolecularMechanics
 
-    USE AtomDataMod
+    USE AtomData
     USE CalculationMod
     USE EnergyCalculation
 
@@ -11,16 +11,18 @@ program MolecularMechanics
     type (Bond) :: Bonding
     type (Bond), ALLOCATABLE :: BondingArray(:)
     integer :: AtomNumbers
+    real *8, ALLOCATABLE :: AngleArray(:)
+    real*8, ALLOCATABLE :: TorsionalAngles(:)
+    real*8 :: Angle
     
    
     call AtomReading('c4h10.xyz', MoleculeData, AtomNumbers)
     call AssignParameters(Variables)
-    !print *, MoleculeData
-    
     call AssignBonds(Bonding, MoleculeData, Variables, BondingArray)
-    print *, BondingArray
-    !call planes(BondingArray, MoleculeData)
-    print *, StretchEnergy(Variables, BondingArray)
-    call CalculateBending(MoleculeData, BondingArray, variables)
+    call CalculateAngle(MoleculeData, BondingArray, Angle, AngleArray)
+    call planes(BondingArray, MoleculeData)
+    
+    print *, NonBondedEnergy(Variables, MoleculeData)
+    print *, TotalEnergy(Variables, BondingArray, AngleArray, TorsionalAngles, MoleculeData)
 
 end program 

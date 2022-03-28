@@ -1,9 +1,9 @@
-module AtomDataMod
+module AtomData
 
     implicit none
 
     PRIVATE
-    PUBLIC ::  AtomReading, Atom, AssignParameters, Parameters
+    PUBLIC ::  Atom, Parameters, AssignParameters, AtomReading 
 
     type Atom
         character(1) :: Element
@@ -11,7 +11,9 @@ module AtomDataMod
     end type Atom
 
     type Parameters
-        real*8 :: CCBondLength, CHBondLength, CCBondStretch, CHBondStretch
+        real*8 :: CCBondLength, CHBondLength, CCBondStretch, CHBondStretch, ForceConstantAngle, EquiAngle, V1, n, Y, ChargeH, &
+        ChargeC, Coulombs, Avogadro, SigmaH, SigmaC, WellDepthC, WellDepthH
+         
     end type 
 
     contains 
@@ -42,7 +44,20 @@ module AtomDataMod
         Variables%CHBondLength  = 1.094
         Variables%CCBondStretch = 317
         Variables%CHBondStretch = 300
+        Variables%ForceConstantAngle = 339
+        Variables%EquiAngle = 2.3
+        Variables%V1 = 1.50
+        Variables%n = 1.0
+        Variables%Y = 0
+        Variables%ChargeH = 1.602176/(10.0**19)
+        Variables%ChargeC = 1.602176/(10.0**19)
+        Variables%Coulombs = 8987551787.0
+        Variables%Avogadro = 6.022141*(10.0**23)
+        Variables%SigmaH = 2
+        Variables%SigmaC = 2
+        Variables%WellDepthH = 2
+        Variables%WellDepthC  = 2
 
     end subroutine 
 
-end module  
+end module 
