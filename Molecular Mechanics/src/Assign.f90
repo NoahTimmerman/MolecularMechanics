@@ -11,7 +11,7 @@
 !!  'MakeAngleList'. The next subroutine: 'AssignTorsional', calculates
 !!  the torsional angles, by calculating the crossproduct using the 
 !!  subroutine: 'CrossProduct'. At last the torsional angles are stored
-!!  in an arrayb by using the subroutine: 'MakeTorsionalAngle'.
+!!  in an array by using the subroutine: 'MakeTorsionalAngle'.
 !!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
