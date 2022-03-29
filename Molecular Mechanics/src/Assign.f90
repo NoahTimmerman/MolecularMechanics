@@ -1,4 +1,21 @@
-Module CalculationMod
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!
+!!  This is he assign module. In this module multiple subroutines and 
+!!  functions are used. The first subroutine: 'AssignBonds', determines 
+!!  which atoms are bonded to eachother, using the the function 
+!!  'CalculateBondLength'. The bonds are then stored in a bondingarray
+!!  by using the subroutine 'MakeBondList'. The next subroutine:
+!!  'AssignAngles', calculate what the angle is of three bonded atoms.
+!!  This subroutine also uses the function 'CalculateBondLength' and
+!!  then store the angles in an anglearray, by using the subroutine:
+!!  'MakeAngleList'. The next subroutine: 'AssignTorsional', calculates
+!!  the torsional angles, by calculating the crossproduct using the 
+!!  subroutine: 'CrossProduct'. At last the torsional angles are stored
+!!  in an arrayb by using the subroutine: 'MakeTorsionalAngle'.
+!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+Module AssignMod
 
     USE MoleculeMod
     implicit none

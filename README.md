@@ -1,2 +1,2 @@
 # MolecularMechanics
-Final project of Scientific Computing &amp; Programming
+Final project of Scientific Computing & Programming

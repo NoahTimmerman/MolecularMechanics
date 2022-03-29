@@ -1,3 +1,13 @@
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!
+!!  This is the molecule module. In this module two subroutines are used.
+!!  The first subroutine reads the input text file and stores it in the
+!!  type 'Atom' the first column is the element and the other 3 columns are
+!!  the x, y and z coordinates. The second subroutine assigns the parameters 
+!!  to the type 'parameters'. 
+!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 module MoleculeMod
 
     implicit none

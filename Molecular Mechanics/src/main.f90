@@ -1,11 +1,27 @@
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!  Author          : Noah Timmerman
+!!  StudentNumber   : 14052687
+!!  University      : University of Amsterdam
+!!  Date            : 29-03-2022
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!  
+!!  Project         : Molecular Mechanics
+!!
+!!  This code calculates the minimised energy of a coumpound which only 
+!!  exists of Carbons and hydrogens, and must be saturated. This code 
+!!  exists of 4 modules: MoleculeMod, AssignMod, EnergyCalculationmod,
+!!  MinimiseMod, and this main program.
+!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 program MolecularMechanics
 
     USE MoleculeMod
-    USE CalculationMod
-    USE EnergyCalculation
-    USE Minimise
+    USE AssignMod
+    USE EnergyCalculationMod
+    USE MinimiseMod
 
-    IMPLICIT NONE
+    implicit none
 
     type (Atom), ALLOCATABLE :: Molecule(:)
     type (Parameters)        :: Variables
@@ -15,7 +31,7 @@ program MolecularMechanics
     real *8, ALLOCATABLE     :: AngleArray(:)
     real*8, ALLOCATABLE      :: TorsionalAngles(:)
     real*8                   :: Angle
-    real*8 :: InitialEnergy
+    real*8                   :: InitialEnergy
     
    
     call AtomReading('c4h10.xyz', Molecule, AtomNumbers)

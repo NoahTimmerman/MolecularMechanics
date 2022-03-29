@@ -1,7 +1,24 @@
-module EnergyCalculation 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!
+!!  This is the EnergyCalculationMod. In this module 5 functions are
+!!  used to calculate the TotalEnergy. The TotalEnergy function takes
+!!  as input the 4 other functions. The first function taken as input
+!!  is 'StretchEnergy' function, this function calculates the stretch
+!!  energy using the BondingArray. The second function: 'BendingEnergy'
+!!  calculates the bending energy which uses the angle array. The 
+!!  third energy function: 'TorsionalEnergy' calculates the torsional
+!!  energy using the torsional angles array, and the last function: 
+!!  'NonBondedEnergy', calculates the non-bonded energy, using the
+!!  electrostatic and van der Waal's interactions. With these 4 
+!!  functions the total energy is then calculated using the function:
+!!  'TotalEnergy'.
+!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+module EnergyCalculationMod 
 
     USE MoleculeMod
-    USE CalculationMod
+    USE AssignMod
     implicit none
 
     PRIVATE
@@ -101,4 +118,4 @@ real*8 function NonBondedEnergy(Variables, Molecule)
     enddo
 end function NonBondedEnergy                      
 
-end module 
+end module EnergyCalculationMod

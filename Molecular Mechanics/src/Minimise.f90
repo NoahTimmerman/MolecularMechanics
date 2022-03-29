@@ -1,8 +1,22 @@
-module Minimise
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!
+!!  This is the minimisation module. In this module two subroutines are
+!!  used to minimise the energy. The subroutine: 'MovingMolecule' moves
+!!  the x,y,z coordinates of 1 random atom of the total molecule and
+!!  stores this information in a new molecule array. The second subroutine
+!!  'MinimisingEnergy', calls this subroutine and checks if the TotalEnergy
+!!  of the new coordinated molecule is lower than the initial energy. If so,
+!!  the initial energy is set to this new energy en the inital molecule
+!!  coordinates are updated to the new coordinated molecule. This is repeated
+!!  till the do loop reaches the exit statement of 500.000 rejections.
+!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-    use MoleculeMod
-    use CalculationMod
-    use EnergyCalculation
+module MinimiseMod
+
+    USE MoleculeMod
+    USE AssignMod
+    USE EnergyCalculationMod
     
     implicit none
 
@@ -85,4 +99,4 @@ print *, InitialEnergy, AcceptedEnergies
 
 end subroutine MinimisingEnergy
 
-end module Minimise
+end module MinimiseMod
