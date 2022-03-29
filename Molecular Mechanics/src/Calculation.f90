@@ -1,23 +1,23 @@
-Module Calculation
+Module CalculationMod
 
     USE MoleculeMod
     implicit none
 
     PRIVATE
-    PUBLIC :: Bond, AssignBonds, CalculateAngle, planes, CalculateBondLength
+    PUBLIC :: Bond, AssignBonds, AssignAngles, AssignTorsional, CalculateBondLength
 
     type Bond
         Character(2) :: Elements
-        Real*8 :: BondLength
-        integer :: FirstAtom, SecondAtom
+        Real*8       :: BondLength
+        integer      :: FirstAtom, SecondAtom
     end type 
 
     contains 
 
 real*8 function CalculateBondLength(FirstAtom, SecondAtom, MoleculeData) 
     type(Atom), allocatable, INTENT(INOUT) :: MoleculeData(:)
-    integer, INTENT(IN) :: FirstAtom, SecondAtom
-    real*8 :: Deltax, Deltay, Deltaz
+    integer, INTENT(IN)                    :: FirstAtom, SecondAtom
+    real*8                                 :: Deltax, Deltay, Deltaz
       
         Deltax = MoleculeData(FirstAtom)%x - MoleculeData(SecondAtom)%x
         Deltay = MoleculeData(FirstAtom)%y - MoleculeData(SecondAtom)%y
@@ -29,12 +29,12 @@ end function CalculateBondLength
 
 
 subroutine AssignBonds(Bonding, MoleculeData, Variables, BondingArray)
-    type(Bond), INTENT(INOUT) :: Bonding
+    type(Bond), INTENT(INOUT)              :: Bonding
     type(Bond), INTENT(INOUT), ALLOCATABLE :: BondingArray(:)
     type(Atom), allocatable, INTENT(INOUT) :: MoleculeData(:)
-    type(Parameters), INTENT(IN) :: Variables
-    integer, allocatable :: AlreadyBonded(:,:)
-    integer :: FirstAtom, SecondAtom
+    type(Parameters), INTENT(IN)           :: Variables
+    integer, allocatable                   :: AlreadyBonded(:,:)
+    integer                                :: FirstAtom, SecondAtom
 
     ALLOCATE(AlreadyBonded(size(MoleculeData), size(MoleculeData)))
     AlreadyBonded = 0
@@ -43,8 +43,8 @@ subroutine AssignBonds(Bonding, MoleculeData, Variables, BondingArray)
         do SecondAtom = 1, size(MoleculeData)
             if(FirstAtom /= SecondAtom) then
                 if (MoleculeData(FirstAtom)%Element == 'C' .and. MoleculeData(SecondAtom)%Element == 'C' .and.   &
-&                   abs(CalculateBondLength(FirstAtom, SecondAtom, MoleculeData) - Variables%CCBondLength) < 0.2 .and. &
-&                   AlreadyBonded(FirstAtom, SecondAtom) == 0) then
+                    abs(CalculateBondLength(FirstAtom, SecondAtom, MoleculeData) - Variables%CCBondLength) < 0.2 .and. &
+                    AlreadyBonded(FirstAtom, SecondAtom) == 0) then
                             
                     Bonding%Elements = 'CC'
                     Bonding%BondLength = CalculateBondLength(FirstAtom, SecondAtom, MoleculeData)
@@ -56,7 +56,7 @@ subroutine AssignBonds(Bonding, MoleculeData, Variables, BondingArray)
                     call MakeBondList(BondingArray, Bonding)
                             
                 elseif (MoleculeData(FirstAtom)%Element == 'C' .and. MoleculeData(SecondAtom)%Element == 'H' .and.  &
-&                       abs(CalculateBondLength(FirstAtom, SecondAtom, MoleculeData) - Variables%CHBondLength) < 0.2) then
+                        abs(CalculateBondLength(FirstAtom, SecondAtom, MoleculeData) - Variables%CHBondLength) < 0.2) then
                             
                     Bonding%Elements = 'CH'
                     Bonding%BondLength = CalculateBondLength(FirstAtom, SecondAtom, MoleculeData)
@@ -73,9 +73,9 @@ end subroutine AssignBonds
 
 Subroutine MakeBondList(BondingArray, Bonding)
     type(Bond), ALLOCATABLE, INTENT(INOUT) :: BondingArray(:)
-    type(Bond), INTENT(IN) :: Bonding
-    type(Bond), ALLOCATABLE :: DummyBondingArray(:)
-    integer :: i, j
+    type(Bond), INTENT(IN)                 :: Bonding
+    type(Bond), ALLOCATABLE                :: DummyBondingArray(:)
+    integer                                :: i, j
 
     if (allocated(BondingArray)) then
         j = size(BondingArray)
@@ -96,12 +96,12 @@ Subroutine MakeBondList(BondingArray, Bonding)
 
 end subroutine MakeBondList
 
-Subroutine CalculateAngle(MoleculeData, BondingArray, Angle, AngleArray)
+Subroutine AssignAngles(MoleculeData, BondingArray, Angle, AngleArray)
     type(Atom), allocatable, INTENT(INOUT) :: MoleculeData(:)
     type(Bond), INTENT(INOUT), ALLOCATABLE :: BondingArray(:)
-    real*8, INTENT(INOUT), ALLOCATABLE :: AngleArray(:)
-    integer :: i,j,k
-    real*8, INTENT(INOUT) :: Angle
+    real*8, INTENT(INOUT), ALLOCATABLE     :: AngleArray(:)
+    integer                                :: i,j,k
+    real*8, INTENT(INOUT)                  :: Angle
 
     do i = 1,size(MoleculeData)
         if (MoleculeData(i)%element == 'C') then
@@ -109,27 +109,27 @@ Subroutine CalculateAngle(MoleculeData, BondingArray, Angle, AngleArray)
                 do k = j,size(BondingArray)
                     if (j /= k .and. BondingArray(j)%FirstAtom == i .and. BondingArray(k)%FirstAtom == i) then   
                         Angle = -((CalculateBondLength(BondingArray(j)%SecondAtom, BondingArray(k)%SecondAtom, MoleculeData))**2 - &
-&                       (BondingArray(j)%Bondlength)**2 - (BondingArray(k)%Bondlength)**2) &
-&                       / (2*(BondingArray(j)%Bondlength) * (BondingArray(k)%Bondlength))
+                        (BondingArray(j)%Bondlength)**2 - (BondingArray(k)%Bondlength)**2) &
+                        / (2*(BondingArray(j)%Bondlength) * (BondingArray(k)%Bondlength))
                         Call MakeAngleList(Angle, AngleArray)
                                            
                     elseif (j /= k .and. BondingArray(j)%SecondAtom == i .and. BondingArray(k)%FirstAtom == i) then
                         Angle = -((CalculateBondLength(BondingArray(j)%SecondAtom, BondingArray(k)%SecondAtom, MoleculeData))**2 - &
-&                       ((BondingArray(j)%Bondlength)**2 - (BondingArray(k)%Bondlength)**2) / &
-&                       (2*(BondingArray(j)%Bondlength) * (BondingArray(k)%Bondlength)))
+                                ((BondingArray(j)%Bondlength)**2 - (BondingArray(k)%Bondlength)**2) / &
+                                (2*(BondingArray(j)%Bondlength) * (BondingArray(k)%Bondlength)))
                         Call MakeAngleList(Angle, AngleArray)
                     endif
                 enddo
             enddo
         endif
     enddo
-end subroutine CalculateAngle
+end subroutine AssignAngles
 
 Subroutine MakeAngleList(Angle, AngleArray)
     real*8, ALLOCATABLE, INTENT(INOUT) :: AngleArray(:)
-    real*8, INTENT(IN) :: Angle
-    real*8, ALLOCATABLE :: DummyAngleArray(:)
-    integer :: i, j
+    real*8, INTENT(IN)                 :: Angle
+    real*8, ALLOCATABLE                :: DummyAngleArray(:)
+    integer                            :: i, j
 
     if (allocated(AngleArray)) then
         j = size(AngleArray)
@@ -150,21 +150,21 @@ Subroutine MakeAngleList(Angle, AngleArray)
 
 end subroutine MakeAngleList
 
-subroutine Planes(BondingArray, MoleculeData)
+subroutine AssignTorsional(BondingArray, MoleculeData)
     type(Bond), INTENT(INOUT), ALLOCATABLE :: BondingArray(:)
     type(Atom), allocatable, INTENT(INOUT) :: MoleculeData(:)
-    integer :: i,j,k
-    real*8, DIMENSION(3) :: VectorA, VectorB, VectorC, x, y, n1, n2, m
-    real*8, ALLOCATABLE :: TorsionAngles(:), phi(:)
+    integer                                :: i,j,k
+    real*8, DIMENSION(3)                   :: VectorA, VectorB, VectorC, x, y, n1, n2, m
+    real*8, ALLOCATABLE                    :: TorsionAngles(:), phi(:)
 
     do i = 1,size(BondingArray)
         if (BondingArray(i)%elements == 'CC') then
             do j = 1,size(BondingArray)
                 do k = j,size(BondingArray)
                     if (j /= k .and. BondingArray(j)%FirstAtom == bondingArray(i)%FirstAtom &
-&                    .and. BondingArray(j)%SecondAtom /= bondingArray(i)%SecondAtom &
-&                    .and. BondingArray(k)%FirstAtom == BondingArray(i)%SecondAtom & 
-&                    .and. BondingArray(k)%SecondAtom /= BondingArray(i)%FirstAtom)then 
+                    .and. BondingArray(j)%SecondAtom /= bondingArray(i)%SecondAtom &
+                    .and. BondingArray(k)%FirstAtom == BondingArray(i)%SecondAtom & 
+                    .and. BondingArray(k)%SecondAtom /= BondingArray(i)%FirstAtom)then 
 
                         VectorA(1) = MoleculeData(BondingArray(j)%SecondAtom)%x - MoleculeData(BondingArray(i)%FirstAtom)%x
                         VectorB(1) = MoleculeData(BondingArray(i)%FirstAtom)%x - MoleculeData(BondingArray(i)%SecondAtom)%x
@@ -187,9 +187,9 @@ subroutine Planes(BondingArray, MoleculeData)
                         call MakeTorsionAngle(Phi, TorsionAngles)
 
                     elseif(j /= k .and. BondingArray(j)%SecondAtom == bondingArray(i)%FirstAtom &
-&                    .and. BondingArray(j)%SecondAtom /= bondingArray(i)%SecondAtom &
-&                    .and. BondingArray(k)%FirstAtom == BondingArray(i)%SecondAtom & 
-&                    .and. BondingArray(k)%SecondAtom /= BondingArray(i)%FirstAtom)then   
+                    .and. BondingArray(j)%SecondAtom /= bondingArray(i)%SecondAtom &
+                    .and. BondingArray(k)%FirstAtom == BondingArray(i)%SecondAtom & 
+                    .and. BondingArray(k)%SecondAtom /= BondingArray(i)%FirstAtom)then   
 
                         VectorA(1) = MoleculeData(BondingArray(j)%SecondAtom)%x - MoleculeData(BondingArray(i)%FirstAtom)%x
                         VectorA(2) = MoleculeData(BondingArray(i)%FirstAtom)%x - MoleculeData(BondingArray(i)%SecondAtom)%x
@@ -216,7 +216,7 @@ subroutine Planes(BondingArray, MoleculeData)
             enddo
         endif
     enddo
-end subroutine Planes
+end subroutine AssignTorsional
 
 function CrossProduct(x,y)
     real*8, DIMENSION(3) :: CrossProduct, x, y
@@ -228,8 +228,8 @@ end function CrossProduct
 
 Subroutine MakeTorsionAngle(phi, TorsionAngles)
     real*8, ALLOCATABLE, INTENT(INOUT) :: phi(:), TorsionAngles(:)
-    real*8, ALLOCATABLE :: DummyAngleArray(:)
-    integer :: i, j
+    real*8, ALLOCATABLE                :: DummyAngleArray(:)
+    integer                            :: i, j
 
     if (allocated(TorsionAngles)) then
         j = size(TorsionAngles)

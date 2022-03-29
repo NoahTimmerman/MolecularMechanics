@@ -1,31 +1,31 @@
 program MolecularMechanics
 
     USE MoleculeMod
-    USE Calculation
+    USE CalculationMod
     USE EnergyCalculation
     USE Minimise
 
     IMPLICIT NONE
 
-    type (Atom), ALLOCATABLE :: MoleculeData(:)
-    type (Parameters) :: variables
-    type (Bond) :: Bonding
+    type (Atom), ALLOCATABLE :: Molecule(:)
+    type (Parameters)        :: Variables
+    type (Bond)              :: Bonding
     type (Bond), ALLOCATABLE :: BondingArray(:)
-    integer :: AtomNumbers
-    real *8, ALLOCATABLE :: AngleArray(:)
-    real*8, ALLOCATABLE :: TorsionalAngles(:)
-    real*8 :: Angle
+    integer                  :: AtomNumbers
+    real *8, ALLOCATABLE     :: AngleArray(:)
+    real*8, ALLOCATABLE      :: TorsionalAngles(:)
+    real*8                   :: Angle
+    real*8 :: InitialEnergy
     
    
-    call AtomReading('c4h10.xyz', MoleculeData, AtomNumbers)
+    call AtomReading('c4h10.xyz', Molecule, AtomNumbers)
     call AssignParameters(Variables)
-    call AssignBonds(Bonding, MoleculeData, Variables, BondingArray)
-    call CalculateAngle(MoleculeData, BondingArray, Angle, AngleArray)
-    call planes(BondingArray, MoleculeData)
-    
-    print *, NonBondedEnergy(Variables, MoleculeData)
-    print *, TotalEnergy(Variables, BondingArray, AngleArray, TorsionalAngles, MoleculeData)
+    call AssignBonds(Bonding, Molecule, Variables, BondingArray)
+    call AssignAngles(Molecule, BondingArray, Angle, AngleArray)
+    call AssignTorsional(BondingArray, Molecule)
+ 
+    InitialEnergy = TotalEnergy(Variables, BondingArray, AngleArray, TorsionalAngles, Molecule)
 
-    call MovingMolecule(MoleculeData)
+    call MinimisingEnergy(Variables, Molecule, BondingArray, AngleArray, TorsionalAngles, InitialEnergy)
 
 end program 
