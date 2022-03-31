@@ -89,6 +89,7 @@ subroutine MinimisingEnergy(Variables, Molecule, BondingArray, AngleArray, Torsi
                 AcceptedEnergies = AcceptedEnergies + 1
             else
                 RejectedEnergies = RejectedEnergies + 1
+                MoleculeMoved = Molecule
             endif
         endif
         if(RejectedEnergies >= 500000)then
