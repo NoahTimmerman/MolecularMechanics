@@ -43,5 +43,6 @@ program MolecularMechanics
     InitialEnergy = TotalEnergy(Variables, BondingArray, AngleArray, TorsionalAngles, Molecule)
 
     call MinimisingEnergy(Variables, Molecule, BondingArray, AngleArray, TorsionalAngles, InitialEnergy)
+    print *, 'Minimised energy is:', InitialEnergy
 
 end program 
