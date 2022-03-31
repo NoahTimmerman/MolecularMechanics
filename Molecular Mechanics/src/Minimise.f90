@@ -91,7 +91,7 @@ print *, InitialEnergy
                 RejectedEnergies = RejectedEnergies + 1
             endif
         endif
-        if(RejectedEnergies >= 1000000)then
+        if(RejectedEnergies >= 500000)then
             exit
         endif  
     enddo
