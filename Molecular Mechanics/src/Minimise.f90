@@ -71,7 +71,7 @@ subroutine MinimisingEnergy(Variables, Molecule, BondingArray, AngleArray, Torsi
 
     AcceptedEnergies = 0
     RejectedEnergies = 0
-print *, InitialEnergy
+
     do
         call MovingMolecule(Variables, MoleculeMoved)
         NewEnergy = TotalEnergy(Variables, BondingArray, AngleArray, TorsionalAngles, MoleculeMoved)
@@ -95,7 +95,6 @@ print *, InitialEnergy
             exit
         endif  
     enddo
-print *, InitialEnergy, AcceptedEnergies
 
 end subroutine MinimisingEnergy
 
